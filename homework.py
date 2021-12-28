@@ -29,7 +29,7 @@ class Training:
 
     LEN_STEP: float = 0.65
     M_IN_KM: int = 1000
-    M_IN_HOUR: int = 60
+    MIN_IN_HOUR: int = 60
 
     def __init__(self,
                  action: int,
@@ -51,30 +51,31 @@ class Training:
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
         raise NotImplementedError(
-            'Определить метод get_spent_calories в ' + self.__class__.__name__
+            f'Определить метод get_spent_calories в {self.__class__.__name__}'
         )
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
-        training_type = self.__class__.__name__
-        duration = self.duration
-        distance = self.get_distance()
-        speed = self.get_mean_speed()
-        calories = self.get_spent_calories()
-        return InfoMessage(training_type, duration, distance, speed, calories)
+        return InfoMessage(
+            self.__class__.__name__,
+            self.duration,
+            self.get_distance(),
+            self.get_mean_speed(),
+            self.get_spent_calories(),
+        )
 
 
 class Running(Training):
     """Тренировка: бег."""
 
-    FACTOR_SPD_RUN: int = 18
-    CORCT_SPD_RUN: int = 20
+    RATE_CALORIE: float = 18
+    CORRECT_CALORIE: float = 20
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий при беге."""
         return (
-            (self.FACTOR_SPD_RUN * self.get_mean_speed() - self.CORCT_SPD_RUN)
-            * self.weight / self.M_IN_KM * self.duration * self.M_IN_HOUR
+            (self.RATE_CALORIE * self.get_mean_speed() - self.CORRECT_CALORIE)
+            * self.weight / self.M_IN_KM * self.duration * self.MIN_IN_HOUR
         )
 
 
@@ -98,7 +99,7 @@ class SportsWalking(Training):
         return (
             (self.RATE_WEIGHT * self.weight + (self.get_mean_speed()**2
              // self.height) * self.FACTOR_WALK * self.weight) * self.duration
-            * self.M_IN_HOUR
+            * self.MIN_IN_HOUR
         )
 
 
