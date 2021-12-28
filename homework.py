@@ -29,7 +29,7 @@ class Training:
 
     LEN_STEP: float = 0.65
     M_IN_KM: int = 1000
-    MIN_IN_HOUR: int = 60
+    MINUTES_IN_HOUR: int = 60
 
     def __init__(self,
                  action: int,
@@ -75,7 +75,7 @@ class Running(Training):
         """Получить количество затраченных калорий при беге."""
         return (
             (self.RATE_CALORIE * self.get_mean_speed() - self.CORRECT_CALORIE)
-            * self.weight / self.M_IN_KM * self.duration * self.MIN_IN_HOUR
+            * self.weight / self.M_IN_KM * self.duration * self.MINUTES_IN_HOUR
         )
 
 
@@ -99,7 +99,7 @@ class SportsWalking(Training):
         return (
             (self.RATE_WEIGHT * self.weight + (self.get_mean_speed()**2
              // self.height) * self.FACTOR_WALK * self.weight) * self.duration
-            * self.MIN_IN_HOUR
+            * self.MINUTES_IN_HOUR
         )
 
 
