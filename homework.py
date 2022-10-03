@@ -31,11 +31,12 @@ class Training:
     M_IN_KM: int = 1000
     MINUTES_IN_HOUR: int = 60
 
-    def __init__(self,
-                 action: int,
-                 duration: float,
-                 weight: float,
-                 ) -> None:
+    def __init__(
+        self,
+        action: int,
+        duration: float,
+        weight: float,
+    ) -> None:
         self.action = action
         self.duration = duration
         self.weight = weight
